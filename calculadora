@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de Orçamento - Jardinagem</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        h2 { text-align: center; }
+        label { margin-top: 10px; display: block; }
+        input[type="number"] { width: 100%; padding: 10px; margin-top: 10px; }
+        .results { margin-top: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+        .results div { margin-bottom: 10px; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; margin-top: 10px; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Simulação de Orçamento de Jardinagem</h2>
+    <label for="hours">Horas Trabalhadas:</label>
+    <input type="number" id="hours" placeholder="Insira as horas trabalhadas">
+
+    <button onclick="calculate()">Calcular Orçamento</button>
+
+    <div class="results" id="results" style="display:none;">
+        <div id="idealPrice"></div>
+        <div id="normalPrice"></div>
+        <div id="lastPrice"></div>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        let hours = document.getElementById('hours').value;
+        let costPerHour = 13;
+
+        if (hours == "" || hours <= 0) {
+            alert("Por favor, insira um número válido de horas.");
+            return;
+        }
+
+        hours = parseFloat(hours);
+
+        // Margens baseadas nas horas
+        let idealMargin, normalMargin, lastMargin;
+
+        if (hours <= 5) {
+            idealMargin = 1.10;
+            normalMargin = 1.00;
+            lastMargin = 0.90;
+        } else if (hours <= 10) {
+            idealMargin = 0.90;
+            normalMargin = 0.85;
+            lastMargin = 0.80;
+        } else if (hours <= 20) {
+            idealMargin = 0.90;
+            normalMargin = 0.80;
+            lastMargin = 0.70;
+        } else if (hours <= 30) {
+            idealMargin = 0.85;
+            normalMargin = 0.75;
+            lastMargin = 0.65;
+        } else if (hours <= 40) {
+            idealMargin = 0.80;
+            normalMargin = 0.70;
+            lastMargin = 0.60;
+        } else if (hours <= 50) {
+            idealMargin = 0.80;
+            normalMargin = 0.65;
+            lastMargin = 0.55;
+        } else if (hours <= 70) {
+            idealMargin = 0.80;
+            normalMargin = 0.60;
+            lastMargin = 0.50;
+        } else {
+            idealMargin = 0.80;
+            normalMargin = 0.50;
+            lastMargin = 0.40;
+        }
+
+        // Cálculos dos preços
+        let idealPrice = hours * costPerHour * (1 + idealMargin);
+        let normalPrice = hours * costPerHour * (1 + normalMargin);
+        let lastPrice = hours * costPerHour * (1 + lastMargin);
+
+        // Exibir os resultados
+        document.getElementById('idealPrice').innerHTML = `<strong>Preço Ideal:</strong> €${idealPrice.toFixed(2)}`;
+        document.getElementById('normalPrice').innerHTML = `<strong>Preço Normal:</strong> €${normalPrice.toFixed(2)}`;
+        document.getElementById('lastPrice').innerHTML = `<strong>Último Preço Praticável:</strong> €${lastPrice.toFixed(2)}`;
+
+        document.getElementById('results').style.display = "block";
+    }
+</script>
+
+</body>
+</html>
